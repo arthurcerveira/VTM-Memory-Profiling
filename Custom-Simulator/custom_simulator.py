@@ -4,18 +4,17 @@ import subprocess
 import shutil
 
 from data_reader import TraceReader, VtuneReader, VtuneReaderPrediction, VtuneReaderDecoder
-from data_formatter import generate_trace_graph, generate_vtune_graph, generate_block_graph
 
 # Routines
 AUTOMATE_TRACE = False
 GENERATE_TRACE_GRAPH = False
 GENERATE_BLOCK_GRAPH = False
 
-AUTOMATE_VTUNE = False
+AUTOMATE_VTUNE = True
 GENERATE_VTUNE_GRAPH = False
 
 PROCESS_REPORTS = False
-PROCESS_DECODER_REPORTS = True
+PROCESS_DECODER_REPORTS = False
 
 # Trace Reader
 TRACE_INPUT = "mem_trace.txt"
@@ -38,8 +37,8 @@ VTUNE_SCRIPT = "vtune_script.sh"
 DIRECTORY_OUTPUT = "result_dir"
 
 SOURCE_AMPLXE = "source /opt/intel/vtune_amplifier_2019/amplxe-vars.sh\n"
-ANALYSE_MEM_CMD = f"amplxe-cl -collect memory-access -data-limit=158000 -result-dir { DIRECTORY_OUTPUT } -- "
-GENERATE_CSV_CMD = f"amplxe-cl -report top-down -result-dir { DIRECTORY_OUTPUT } -report-output " \
+ANALYSE_MEM_CMD = f"vtune -collect memory-access -data-limit=200000 -result-dir { DIRECTORY_OUTPUT } -- "
+GENERATE_CSV_CMD = f"vtune -report top-down -result-dir { DIRECTORY_OUTPUT } -report-output " \
                    + f"{ VTUNE_REPORT_INPUT } -format csv -csv-delimiter semicolon\n"
 
 # Report reader
@@ -286,12 +285,6 @@ def automate_trace():
     for video_path in automate_reader.video_paths:
         automate_reader.process_video(video_path)
 
-    if GENERATE_TRACE_GRAPH is True:
-        generate_trace_graph(AUTOMATE_TRACE_OUTPUT)
-
-    if GENERATE_BLOCK_GRAPH is True:
-        generate_block_graph(AUTOMATE_TRACE_OUTPUT)
-
 
 def automate_vtune():
     automate_reader = AutomateVtuneReader()
@@ -299,9 +292,6 @@ def automate_vtune():
 
     for video_path in automate_reader.video_paths:
         automate_reader.process_video(video_path)
-
-    if GENERATE_VTUNE_GRAPH is True:
-        generate_vtune_graph(AUTOMATE_VTUNE_OUTPUT)
 
 
 def process_reports():
