@@ -4,11 +4,11 @@ Memory profiling for the VVC Test Model
 
 ## Instructions
 
-### Setup
+### Prerequisites
 
 The tools needed to run these scripts are Python (>= 3.6), [Vtune Profiling Tool](https://software.intel.com/content/www/us/en/develop/tools/vtune-profiler.html) and git.
 
-### Running the container
+### Running the scripts
 
 First you need to clone the repository to your local machine
 
@@ -16,7 +16,7 @@ First you need to clone the repository to your local machine
 $ git clone https://github.com/arthurcerveira/VTM-Memory-Profiling.git
 ```
 
-You must build VTM. You can do this by following the instruction in `vtm-mem/README.md` or running `./setup.sh`.
+You must build VTM. You can do this by following the instructions in `vtm-mem/README.md` or by running `./setup.sh`.
 
 Then you'll need to create a `video_sequences` directory to store the videos (.yuv).
 
